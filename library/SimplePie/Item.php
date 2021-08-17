@@ -501,7 +501,7 @@ class SimplePie_Item
 			}
             if (isset($category['attribs']['']['slug']))
             {
-                $slug = $this->sanitize($category['attribs']['']['domain'], SIMPLEPIE_CONSTRUCT_TEXT);
+                $slug = $this->sanitize($category['attribs']['']['slug'], SIMPLEPIE_CONSTRUCT_TEXT);
             }
             else
             {
