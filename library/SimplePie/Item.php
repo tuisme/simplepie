@@ -461,6 +461,32 @@ class SimplePie_Item
     {
         $categories = array();
 
+        $type = 'location';
+
+        foreach ((array) $this->get_item_tags(SIMPLEPIE_NAMESPACE_RSS_20, $type) as $category)
+        {
+            // This is really the label, but keep this as the term also for BC.
+            // Label will also work on retrieving because that falls back to term.
+            $term = $this->sanitize($category['data'], SIMPLEPIE_CONSTRUCT_TEXT);
+            if (isset($category['attribs']['']['domain']))
+            {
+                $scheme = $this->sanitize($category['attribs']['']['domain'], SIMPLEPIE_CONSTRUCT_TEXT);
+            }
+            else
+            {
+                $scheme = null;
+            }
+            if (isset($category['attribs']['']['slug']))
+            {
+                $slug = $this->sanitize($category['attribs']['']['slug'], SIMPLEPIE_CONSTRUCT_TEXT);
+            }
+            else
+            {
+                $slug = null;
+            }
+            array_push($categories, $this->registry->create('Category', array($term, $scheme, $slug, $type)));
+        }
+
         $type = 'category';
         foreach ((array) $this->get_item_tags(SIMPLEPIE_NAMESPACE_ATOM_10, $type) as $category)
         {
